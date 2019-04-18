@@ -17,7 +17,7 @@ export default class PhonesCatalog extends Component {
             this.onPhoneSelected(phoneId);
         })
     }
-
+    
     _render() {
         this._element.innerHTML = `
         <ul class="phones">

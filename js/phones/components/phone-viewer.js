@@ -5,15 +5,12 @@ export default class PhoneViewer extends Component {
         super({ element });
         this.onBack = onBack;
 
-        this._element.addEventListener('click', (event) => {
-            const backBtn = event.target.closest('[data-element="back-button"]');
-            if (!backBtn) {
-                return;
-            }
-            this.onBack();
-        })
-
         this.on('click', '[data-element="back-button"]', this.onBack);
+        this.on('click', '[data-element="small-preview"]', (event) => {
+            const bigPreview = this._element.querySelector('[data-element="big-preview"]');
+            console.log(bigPreview);
+            bigPreview.src = event.target.src;
+        })
     }
 
     show(phoneDetails) {
@@ -24,35 +21,28 @@ export default class PhoneViewer extends Component {
 
     _render() {
         this._element.innerHTML = `
-        <img class="phone" src="${this._phoneDetails.images[0]}">
+        <img
+        data-element="big-preview"
+        class="phone"
+        src="${this._phoneDetails.images[0]}"
+        >
 
         <button data-element="back-button">Back</button>
         <button>Add to basket</button>
-    
     
         <h1>${this._phoneDetails.name}</h1>
     
         <p>${this._phoneDetails.description}</p>
     
         <ul class="phone-thumbs">
-          <li>
-            <img src="${this._phoneDetails.images[0]}">
-          </li>
-          <li>
-            <img src="${this._phoneDetails.images[1]}">
-          </li>
-          <li>
-            <img src="${this._phoneDetails.images[2]}">
-          </li>
-          <li>
-            <img src="${this._phoneDetails.images[3]}">
-          </li>
-          <li>
-            <img src="${this._phoneDetails.images[4]}">
-          </li>
-          <li>
-            <img src="${this._phoneDetails.images[5]}">
-          </li>
+        ${this._phoneDetails.images.map(imageUrl => `
+        <li>
+            <img
+            src="${imageUrl}"
+            data-element="small-preview"
+            >
+        </li>
+        `).join('')}
         </ul>
         `
     }
