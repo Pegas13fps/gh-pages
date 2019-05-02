@@ -16,7 +16,7 @@ export default class PhonesPage {
     }
 
     _initCatalog() {
-        this._catalog =  new PhonesCatalog({
+        this._catalog = new PhonesCatalog({
             element: this._element.querySelector('[data-component="phone-catalog"]')
         })
 
@@ -70,11 +70,10 @@ export default class PhonesPage {
         })
     }
 
-    _showPhones() {
+    async _showPhones() {
         this._currentFiltering = this._filter.getCurrent();
-        PhonesService.getAll(this._currentFiltering).then((phones) => {
-            this._catalog.show(phones);
-        })
+        const phones = await PhonesService.getAll(this._currentFiltering);
+        this._catalog.show(phones);
     }
 
     _render() {
